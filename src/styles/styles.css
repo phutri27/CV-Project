@@ -1,0 +1,176 @@
+body {
+  font-family: "Oswald", "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+p {
+  margin: 0;
+}
+
+.container {
+  height: 150vh;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  column-gap: 20px;
+}
+.container .job-input {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.container .job-input form {
+  display: flex;
+  flex-direction: column;
+}
+.container .CV {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black;
+  gap: 50px;
+}
+
+.CV-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.CV-info div {
+  margin-top: 0;
+  display: flex;
+  gap: 20px;
+}
+.CV-info-name {
+  margin: 15px 0 15px 0;
+  font-size: 1.6rem;
+}
+
+.solid {
+  border-top: 1px solid black;
+  width: 95%;
+}
+
+.CV-edu-title,
+.CV-work-title {
+  margin-left: 3%;
+  margin-right: 3%;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.CV-edu-section,
+.CV-work-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.CV-edu-info,
+.CV-work-info {
+  margin: 0 3% 0 3%;
+  display: flex;
+}
+.CV-edu-info-title,
+.CV-work-info-title {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.CV-edu-info-date,
+.CV-work-info-date {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.CV-work-info-title .description {
+  width: 50%;
+}
+
+.PI-section,
+.PI-section-2 {
+  background-color: rgb(199, 195, 195);
+  border: 2px solid black;
+  border-radius: 20px;
+}
+.PI-section .PI,
+.PI-section-2 .PI {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: rgb(56, 56, 56);
+}
+.PI-section form,
+.PI-section-2 form {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+.PI-section label,
+.PI-section-2 label {
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+.PI-section input,
+.PI-section textarea,
+.PI-section-2 input,
+.PI-section-2 textarea {
+  font-family: "Oswald", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+}
+.PI-section button,
+.PI-section-2 button {
+  width: 30%;
+  font-family: "Oswald", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  color: white;
+  background-color: black;
+  cursor: pointer;
+  transition: transform 0.2s ease-in;
+}
+.PI-section button:hover,
+.PI-section-2 button:hover {
+  transform: scale(1.2);
+}
+
+.PI-section-2 .btn-div {
+  display: flex;
+  justify-content: space-evenly;
+}
+.PI-section-2 .add-btn-div {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+.PI-section-2 .add-btn-div .add-btn {
+  background-color: red;
+  border: none;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 500px) {
+  .container {
+    grid-template-columns: 1fr 5fr;
+  }
+}
+.visible {
+  display: flex;
+  animation: expand 500ms ease-in;
+  transform-origin: top;
+}
+
+@keyframes expand {
+  0% {
+    transform: scaleY(0);
+  }
+  70% {
+    transform: scaleY(1.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

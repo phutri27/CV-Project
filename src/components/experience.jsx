@@ -1,45 +1,50 @@
+
+import { handleChange, submitInfo, deleteForm } from "./utils"
 //render jobs form
-function Form({jobs, onChange, index, onSubmit, onDelete}) {
+function Form({jobs, setJobs, onChange, index, onSubmit, onDelete}) {
     return (
         <>
-            <form action="" onSubmit={(e) => onSubmit(e, jobs.id)}>
-                <legend>Work Expericene {index + 1}</legend>
-                <label htmlFor="date">Date</label>
-                <div>
-                    <input type="number" id="date" value={jobs.dateStart} onChange={onChange("dateStart", jobs.id)}/>
-                    <input type="number" id="date" value={jobs.dateEnd} onChange={onChange("dateEnd", jobs.id)}/>
-                </div>
+            <form action="" onSubmit={(e) => onSubmit(setJobs, e, jobs.id)}>
+                <legend className="PI">Work Expericene {index + 1}</legend>
                 <label htmlFor="company">Company</label>
-                <input type="text" id="company" value={jobs.company} onChange={onChange("company", jobs.id)}/>
+                <input type="text" id="company" value={jobs.company} onChange={onChange(setJobs, "company", jobs.id)}/>
                 <label htmlFor="title">Job Title</label>
-                <input type="text" id="title" value={jobs.title} onChange={onChange("title", jobs.id)} />
+                <input type="text" id="title" value={jobs.title} onChange={onChange(setJobs, "title", jobs.id)} />
                 <label htmlFor="work">Job Description</label>
-                <input type="text" id="work" value={jobs.description} onChange={onChange("description", jobs.id)}/>
-                <button>Submit</button>
-                <button type="button" onClick={() => onDelete(jobs.id)}>Delete</button>
+                <textarea rows="10" id="work" value={jobs.description} onChange={onChange(setJobs, "description",jobs.id)}></textarea>
+                <label htmlFor="date">Date of Working</label>
+                <div>
+                    <p>From: </p>
+                    <input type="text" inputMode="numeirc" id="date" value={jobs.dateStart} onChange={onChange(setJobs, "dateStart", jobs.id)}/>
+                    <p>To: </p>
+                    <input type="text" inputMode="numeirc" id="date" value={jobs.dateEnd} onChange={onChange(setJobs, "dateEnd", jobs.id)}/>
+                </div>
+                <div className="btn-div">
+                    <button>Submit</button>
+                    <button type="button" onClick={() => onDelete(setJobs, jobs.id)}>Delete</button>
+                </div>
             </form>
         </>
     )
 }
 
-function SubmitForm({jobs, index, onSubmit, onDelete}) {
+function SubmitForm({jobs, setJobs, index, onSubmit, onDelete}) {
     return (
         <>
-            <p>Work Experience {index + 1}</p>
-            <label htmlFor="date">Date</label>
+            <p className="PI">Work Experience {index + 1}</p>
             <div>
-                <p>{jobs.dateStart}
+                <p>Date of Work: {jobs.dateStart}
                     {jobs.dateStart && jobs.dateEnd && " - "}
                         {jobs.dateEnd}</p>
             </div>
-            <label htmlFor="company">Company</label>
-            <p>{jobs.company}</p>
-            <label htmlFor="title">Job Title</label>
-            <p>{jobs.title}</p>
-            <label htmlFor="work">Job Description</label>
+            <p>Company: {jobs.company}</p>
+            <p>Job Title: {jobs.title}</p>
+            <p>Job Description: </p>
             <p>{jobs.description}</p>
-            <button onClick={(e) => onSubmit(e, jobs.id)}>Edit</button>
-            <button onClick={() => onDelete(jobs.id)}>Delete</button>
+            <div className="btn-div">
+                <button onClick={(e) => onSubmit(setJobs, e, jobs.id)}>Edit</button>
+                <button onClick={() => onDelete(setJobs, jobs.id)}>Delete</button>
+            </div>
         </>
     )
 }
@@ -52,31 +57,12 @@ export function Experience({experience, setExperience}){
         dateEnd:"",
         company: "",
         title:"",
-        description: "",
+        description: [],
         submit: false
     }
 
-    function handleChange(field, id){
-        return (e) => 
-          setExperience(experience.map(jobs =>
-              jobs.id === id ? {...jobs, [field]: e.target.value} : jobs
-          ))
-    }
-
-    function submitInfo(e, id){
-        e.preventDefault()
-        // submit only form that click
-        setExperience(experience.map(jobs =>
-          jobs.id === id ? {...jobs, submit: !jobs.submit} : jobs
-        ))
-    }
-
-    function deleteForm(id){
-      setExperience(experience.filter(jobs => jobs.id !== id ))
-    }
-
     return (
-        <section>
+        <section className="PI-section-2">
             { 
             experience.map((jobs, index) => 
               jobs.submit ? ( 
@@ -86,7 +72,8 @@ export function Experience({experience, setExperience}){
               jobs={jobs}
               index={index}
               onSubmit={submitInfo}
-              onDelete={deleteForm}/>):(
+              onDelete={deleteForm}
+              setJobs={setExperience}/>):(
               
               <Form
               key={jobs.id}
@@ -95,8 +82,10 @@ export function Experience({experience, setExperience}){
               onSubmit={submitInfo}
               index={index}
               onDelete={deleteForm}
-              />))}
-            <button onClick={() => setExperience([...experience, workJob])}>Add</button>
+              setJobs={setExperience}/>))}
+            <div className="add-btn-div">
+                <button className="add-btn" onClick={() => setExperience([...experience, workJob])}>Add</button>
+            </div>
         </section>
     )
 }

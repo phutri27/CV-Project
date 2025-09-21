@@ -1,16 +1,16 @@
-import { handleChange, submitInfo, deleteForm } from "./utils";
+import { handleChange, submitInfo, deleteForm, preventEnter } from "./utils";
 // render education form
-function Form({ edu, onChange, onSubmit, index, onDelete }) {
+function Form({ edu, setEdu, onChange, onSubmit, index, onDelete }) {
   return (
     <>
-        <form onSubmit={(e) => onSubmit(e, edu.id)}>
-          <legend>Education {index + 1} </legend>
+        <form onKeyDown={preventEnter} onSubmit={(e) => onSubmit(setEdu, e, edu.id)}>
+          <legend className="PI">Education {index + 1} </legend>
           <label htmlFor={`school-${edu.id}`}>University Name</label>
           <input
             id={`school-${edu.id}`}
             type="text"
             value={edu.name}
-            onChange={onChange("name", edu.id)}
+            onChange={onChange(setEdu, "name", edu.id)}
           />
 
           <label htmlFor={`major-${edu.id}`}>Major</label>
@@ -18,48 +18,60 @@ function Form({ edu, onChange, onSubmit, index, onDelete }) {
             id={`major-${edu.id}`}
             type="text"
             value={edu.major}
-            onChange={onChange("major", edu.id)}
+            onChange={onChange(setEdu, "major", edu.id)}
+          />
+
+          <label htmlFor={`GPA-${edu.id}`}>GPA</label>
+          <input
+            id={`GPA-${edu.id}`}
+            type="text"
+            value={edu.GPA}
+            onChange={onChange(setEdu, "GPA", edu.id)}
           />
 
           <label htmlFor={`date-${edu.id}`}>Date of Study</label>
           <div>
+            <p>From: </p>
             <input
               id={`date-${edu.id}`}
               type="text"
               inputMode="numeric"
               value={edu.dateStart}
-              onChange={onChange("dateStart", edu.id)}
+              onChange={onChange(setEdu, "dateStart", edu.id)}
             />
+            <p>To: </p>
             <input
               id={`date1-${edu.id}`}
               type="text"
               inputMode="numeric"
               value={edu.dateEnd}
-              onChange={onChange("dateEnd", edu.id)}
+              onChange={onChange(setEdu, "dateEnd", edu.id)}
             />
           </div>
-          <button>Submit</button>
-          <button type="button" onClick={() => onDelete(edu.id)}>Delete</button>
+          <div className="btn-div">
+            <button>Submit</button>
+            <button type="button" onClick={() => onDelete(setEdu, edu.id)}>Delete</button>
+          </div>
         </form>
     </>
   );
 }
 
-function SubmitForm({edu, index, onSubmit, onDelete}){
+function SubmitForm({edu, setEdu, index, onSubmit, onDelete}){
   return (
-    <>
-      <p>Education {index + 1}</p>
-      <label htmlFor="school">University Name</label>
-      <p>{edu.name}</p>
-      <label htmlFor="major">Major</label>
-      <p>{edu.major}</p>
-      <label htmlFor="date">Date of Study</label>
-      <p>{edu.dateStart} 
+    <div>
+      <p className="PI">Education {index + 1}</p>
+      <p>University Name: {edu.name}</p>
+      <p>Major: {edu.major}</p>
+      <p>GPA: {edu.GPA}</p>
+      <p>Date of Study: {edu.dateStart} 
       {edu.dateStart && edu.dateEnd && " - "}
       {edu.dateEnd}</p>
-      <button onClick={(e) => onSubmit(e, edu.id)}>Edit</button>
-      <button onClick={() => onDelete(edu.id)}>Delete</button>
-    </>
+      <div className="btn-div">
+        <button onClick={(e) => onSubmit(setEdu, e, edu.id)}>Edit</button>
+        <button onClick={() => onDelete(setEdu, edu.id)}>Delete</button>
+      </div>
+    </div>
   )
 }
 
@@ -73,27 +85,8 @@ export function AlmaMater({education, setEducation}){
             submit: false
     }
 
-    function handleChange(field, id){
-        return (e) => 
-          setEducation(education.map(edu =>
-              edu.id === id ? {...edu, [field]: e.target.value} : edu
-          ))
-    }
-
-    function submitInfo(e, id){
-        e.preventDefault()
-        // submit only form that click
-        setEducation(education.map(edu =>
-          edu.id === id ? {...edu, submit: !edu.submit} : edu
-        ))
-    }
-
-    function deleteForm(id){
-      setEducation(education.filter(edu => edu.id !== id ))
-    }
-
     return (
-        <section>
+        <section className="PI-section-2">
             { 
             education.map((edu, index) => 
               edu.submit ? ( 
@@ -103,7 +96,8 @@ export function AlmaMater({education, setEducation}){
               edu={edu}
               index={index}
               onSubmit={submitInfo}
-              onDelete={deleteForm}/>):(
+              onDelete={deleteForm}
+              setEdu={setEducation}/>):(
               
               <Form
               key={edu.id}
@@ -112,8 +106,10 @@ export function AlmaMater({education, setEducation}){
               onSubmit={submitInfo}
               index={index}
               onDelete={deleteForm}
-              />))}
-            <button onClick={() => setEducation([...education, educa])}>Add</button>
+              setEdu={setEducation}/>))}
+            <div className="add-btn-div">
+              <button className="add-btn" onClick={() => setEducation([...education, educa])}>Add</button>
+            </div>
         </section>
     )
 }
